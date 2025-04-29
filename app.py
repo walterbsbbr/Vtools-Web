@@ -1,18 +1,37 @@
-from flask import Flask, render_template, request, send_file, redirect, url_for
+from flask import Flask, render_template, request, send_file, redirect, url_for, abort
 from werkzeug.utils import secure_filename
 import os
+import subprocess
+import time
 
 from utils.converter import convert_video
 from utils.downloader import download_video
 from utils.player import allowed_file
 
 app = Flask(__name__)
+app.config['MAX_CONTENT_LENGTH'] = 500 * 1024 * 1024  # Limite de 500MB por upload
 
 UPLOAD_FOLDER = "uploads"
 CONVERTED_FOLDER = "converted"
 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(CONVERTED_FOLDER, exist_ok=True)
+
+# Função para limpar arquivos antigos (mais de 6 horas)
+def limpar_arquivos_antigos(pasta, idade_limite_horas=6):
+    agora = time.time()
+    limite = idade_limite_horas * 3600
+    for nome in os.listdir(pasta):
+        caminho = os.path.join(pasta, nome)
+        if os.path.isfile(caminho):
+            if agora - os.path.getmtime(caminho) > limite:
+                try:
+                    os.remove(caminho)
+                except Exception as e:
+                    print(f"Erro ao remover {caminho}: {e}")
+
+limpar_arquivos_antigos(UPLOAD_FOLDER)
+limpar_arquivos_antigos(CONVERTED_FOLDER)
 
 @app.route('/')
 def index():
@@ -72,6 +91,5 @@ def uploaded_file(filename):
     return send_file(os.path.join(UPLOAD_FOLDER, filename))
 
 if __name__ == '__main__':
-    import os
     port = int(os.environ.get('PORT', 5000))
     app.run(debug=True, host='0.0.0.0', port=port)
