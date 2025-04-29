@@ -5,7 +5,7 @@ import subprocess
 import time
 
 from utils.converter import convert_video
-from utils.downloader import download_video
+from utils.downloader import download_video, DownloadError
 from utils.player import allowed_file
 
 app = Flask(__name__)
@@ -66,8 +66,12 @@ def download():
         try:
             filename = download_video(url, UPLOAD_FOLDER)
             return send_file(filename, as_attachment=True)
-        except Exception as e:
+        except DownloadError as e:
+            if 'Sign in to confirm' in str(e):
+                return "Não é possível baixar este vídeo. Ele exige login/autenticação.", 403
             return f"Erro ao baixar vídeo: {e}", 500
+        except Exception as e:
+            return f"Erro inesperado: {e}", 500
 
     return render_template('download.html')
 
