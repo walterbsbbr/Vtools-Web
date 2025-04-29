@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Downloader de Redes</h1>
+<form method="POST">
+    <label>Insira a URL do vídeo:</label>
+    <input type="url" name="url" required>
+    <button type="submit">Baixar</button>
+</form>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Player de Vídeo</h1>
+<form method="POST" enctype="multipart/form-data">
+    <label>Selecione um vídeo para assistir:</label>
+    <input type="file" name="video" required>
+    <button type="submit">Enviar</button>
+</form>
+
+{% if filename %}
+<h2>Assistindo: {{ filename }}</h2>
+<video width="640" height="360" controls>
+    <source src="{{ url_for('uploaded_file', filename=filename) }}" type="video/{{ filename.rsplit('.', 1)[1] }}">
+    Seu navegador não suporta vídeo HTML5.
+</video>
+
+<p><strong>Atenção:</strong> o navegador suporta apenas os formatos <code>.mp4</code>, <code>.webm</code> e <code>.ogg</code> para reprodução direta.</p>
+<p>Arquivos como <code>.avi</code>, <code>.wmv</code>, <code>.mov</code> e <code>.flv</code> precisam ser convertidos antes.</p>
+{% endif %}
+{% endblock %}

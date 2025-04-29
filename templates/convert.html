@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Conversor de Vídeo</h1>
+<form method="POST" enctype="multipart/form-data">
+    <label>Selecione um vídeo:</label>
+    <input type="file" name="video" required>
+    <label>Formato de saída (ex: mp4, avi, mkv):</label>
+    <input type="text" name="format" required>
+    <button type="submit">Converter</button>
+</form>
+{% endblock %}

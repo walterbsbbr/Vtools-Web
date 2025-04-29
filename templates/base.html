@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>VTools Web</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="sidebar">
+        <h2>VTools</h2>
+        <a href="{{ url_for('convert') }}">🎞️ Conversor</a>
+        <a href="{{ url_for('download') }}">⬇️ Downloader</a>
+        <a href="{{ url_for('player') }}">▶️ Player</a>
+    </div>
+    <div class="main-content">
+        {% block content %}
+        <h1>Bem-vindo ao VTools Web</h1>
+        <p>Escolha uma função no menu à esquerda.</p>
+        {% endblock %}
+    </div>
+</body>
+</html>
