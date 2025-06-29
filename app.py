@@ -5,7 +5,7 @@ import subprocess
 import time
 
 from utils.converter import convert_video
-from utils.downloader import download_video, DownloadError
+from utils.downloader import download_video,
 from utils.player import allowed_file
 
 app = Flask(__name__)
