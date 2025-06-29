@@ -1,5 +1,5 @@
 import os
-import yt_dlp
+"import yt_dlp"
 
 class DownloadError(Exception):
     pass
